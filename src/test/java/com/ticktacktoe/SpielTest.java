@@ -36,12 +36,12 @@ class SpielTest {
         Spiel game = new Spiel();
         game.playMove(0,0);
         game.playMove(1,0);
-        game.switchPlayer();
         game.playMove(0,1);
-        game.switchPlayer();
+        game.playMove(1,1);
         game.playMove(0,2);
         assertTrue(game.checkWin());
     }
+
 
     @Test
     void testBoardFull() {
