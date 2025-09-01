@@ -1,6 +1,8 @@
 package com.ticktacktoe;
 
 import org.junit.jupiter.api.Test;
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import static org.junit.jupiter.api.Assertions.*;
 
 class SpielTest {
@@ -51,4 +53,99 @@ class SpielTest {
                 game.getBoard()[i][j] = 'X';
         assertTrue(game.isBoardFull());
     }
+
+    
+    @Test
+    void testPlayMoveOutOfBounds() {
+        Spiel g = new Spiel();
+        assertFalse(g.playMove(-1, 0));
+        assertFalse(g.playMove(3, 3));
+    }
+
+    @Test
+    void testSwitchPlayerTwiceBackToX() {
+        Spiel g = new Spiel();
+        g.switchPlayer();
+        g.switchPlayer();
+        assertEquals('X', g.getCurrentPlayer());
+    }
+
+    @Test
+    void testWinColumn() {
+        Spiel g = new Spiel();
+        g.playMove(0,0);
+        g.playMove(1,0);
+        g.playMove(2,0);
+        assertTrue(g.checkWin());
+    }
+
+    @Test
+    void testWinDiagonal() {
+        Spiel g = new Spiel();
+        g.playMove(0,0);
+        g.playMove(1,1);
+        g.playMove(2,2);
+        assertTrue(g.checkWin());
+    }
+
+    @Test
+    void testNoWinYet() {
+        Spiel g = new Spiel();
+        g.playMove(0,0);
+        g.playMove(0,1);
+        assertFalse(g.checkWin());
+    }
+
+    @Test
+    void testBoardNotFull() {
+        Spiel g = new Spiel();
+        assertFalse(g.isBoardFull());
+    }
+
+    @Test
+    void testCurrentPlayerStartsX() {
+        Spiel g = new Spiel();
+        assertEquals('X', g.getCurrentPlayer());
+    }
+
+    @Test
+    void testCurrentPlayerAfterSwitchIsO() {
+        Spiel g = new Spiel();
+        g.switchPlayer();
+        assertEquals('O', g.getCurrentPlayer());
+    }
+
+    @Test
+    void testBoardDimensions() {
+        Spiel g = new Spiel();
+        char[][] b = g.getBoard();
+        assertEquals(3, b.length);
+        for (int i = 0; i < 3; i++) assertEquals(3, b[i].length);
+    }
+
+    @Test
+    void testPrintBoardInitialHasDashes() {
+        Spiel g = new Spiel();
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        PrintStream orig = System.out;
+        System.setOut(new PrintStream(out));
+        g.printBoard();
+        System.setOut(orig);
+        String s = out.toString();
+        assertTrue(s.contains("-"));
+    }
+
+    @Test
+    void testPrintBoardAfterMoveShowsX() {
+        Spiel g = new Spiel();
+        g.playMove(0,0);
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        PrintStream orig = System.out;
+        System.setOut(new PrintStream(out));
+        g.printBoard();
+        System.setOut(orig);
+        String s = out.toString();
+        assertTrue(s.contains("X"));
+    }
+
 }
