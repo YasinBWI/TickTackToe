@@ -12,7 +12,7 @@ public class Spiel {
         initializeBoard();
     }
 
-    // fill board with '-'
+    // fill board with '-' test
     private void initializeBoard() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -20,7 +20,7 @@ public class Spiel {
             }
         }
     }
-    
+
     public void printBoard() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
